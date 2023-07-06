@@ -1,0 +1,16 @@
+pool:
+  vmImage: ubuntu-latest
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+  - script: python -m pip install --upgrade pip poetry pyright black
+    displayName: 'Install poetry'
+  - script: poetry install
+    displayName: 'Install'
+  - script: poetry run pytest
+    displayName: 'Test'
+  - script: poetry run pyright .
+    displayName: 'Lint - pyright type checking'
+  - script: poetry run black . --check
+    displayName: 'Lint - black formatting'
